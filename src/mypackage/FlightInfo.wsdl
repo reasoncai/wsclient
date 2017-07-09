@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://Control.nair.com" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://Control.nair.com">
+    <wsdl:documentation>FlightInfo</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://Control.nair.com">
+            <xs:element name="getFlightInfoByNOandSTD">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="flight_no" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="std" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getFlightInfoByNOandSTDResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="main">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="args" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="mainRequest">
+        <wsdl:part name="parameters" element="ns:main"/>
+    </wsdl:message>
+    <wsdl:message name="getFlightInfoByNOandSTDRequest">
+        <wsdl:part name="parameters" element="ns:getFlightInfoByNOandSTD"/>
+    </wsdl:message>
+    <wsdl:message name="getFlightInfoByNOandSTDResponse">
+        <wsdl:part name="parameters" element="ns:getFlightInfoByNOandSTDResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="FlightInfoPortType">
+        <wsdl:operation name="main">
+            <wsdl:input message="ns:mainRequest" wsaw:Action="urn:main"/>
+        </wsdl:operation>
+        <wsdl:operation name="getFlightInfoByNOandSTD">
+            <wsdl:input message="ns:getFlightInfoByNOandSTDRequest" wsaw:Action="urn:getFlightInfoByNOandSTD"/>
+            <wsdl:output message="ns:getFlightInfoByNOandSTDResponse" wsaw:Action="urn:getFlightInfoByNOandSTDResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="FlightInfoSoap11Binding" type="ns:FlightInfoPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="main">
+            <soap:operation soapAction="urn:main" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="getFlightInfoByNOandSTD">
+            <soap:operation soapAction="urn:getFlightInfoByNOandSTD" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="FlightInfoSoap12Binding" type="ns:FlightInfoPortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="main">
+            <soap12:operation soapAction="urn:main" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="getFlightInfoByNOandSTD">
+            <soap12:operation soapAction="urn:getFlightInfoByNOandSTD" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="FlightInfoHttpBinding" type="ns:FlightInfoPortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="main">
+            <http:operation location="main"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="getFlightInfoByNOandSTD">
+            <http:operation location="getFlightInfoByNOandSTD"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="FlightInfo">
+        <wsdl:port name="FlightInfoHttpSoap11Endpoint" binding="ns:FlightInfoSoap11Binding">
+            <soap:address location="http://219.135.189.180:8080/axis2/services/FlightInfo.FlightInfoHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="FlightInfoHttpSoap12Endpoint" binding="ns:FlightInfoSoap12Binding">
+            <soap12:address location="http://219.135.189.180:8080/axis2/services/FlightInfo.FlightInfoHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="FlightInfoHttpEndpoint" binding="ns:FlightInfoHttpBinding">
+            <http:address location="http://219.135.189.180:8080/axis2/services/FlightInfo.FlightInfoHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
